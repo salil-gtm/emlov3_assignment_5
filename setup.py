@@ -8,13 +8,13 @@ setup(
     description="EMLOv3 Base Setup",
     author="Salil Gautam",
     author_email="salil.gtm@gmail.com",
-    url="https://github.com/salil-gtm/emlov3_assignment_4",
+    url="https://github.com/salil-gtm/emlov3_assignment_5",
     install_requires=["lightning", "hydra-core"],
     packages=find_packages(),
     entry_points={
         "console_scripts": [
-            "src_train = adamantium.train:main",
-            "src_eval = adamantium.eval:main",
+            "adamantium_train = adamantium.train:main",
+            "adamantium_eval = adamantium.eval:main",
         ]
     },
 )
