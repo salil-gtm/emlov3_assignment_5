@@ -82,7 +82,7 @@ Note: The above commands will run the training & evaluation using the default co
 ## Inference
 
 To run inference on a single image, run the following command:
-adamantium_infer data.num_workers=8 experiment=cat_dog
+
 ```bash
 adamantium_infer experiment=cat_dog_infer
 ```
