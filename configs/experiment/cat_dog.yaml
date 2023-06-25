@@ -15,7 +15,7 @@ seed: 0
 
 trainer:
   min_epochs: 0
-  max_epochs: 5
+  max_epochs: 10
   gradient_clip_val: 0.5
 
 model:

@@ -26,7 +26,7 @@ compile: False
 ckpt_path: ${paths.ckpt_dir}
 
 # simply provide image path to infer
-image_path: ${paths.data_dir}/PetImages_split/test/Cat/12.jpg
+image_path: ${paths.data_dir}/PetImages_split/test/Dog/1.jpg
 
 # seed for random number generators in pytorch, numpy and python.random
 seed: 0

@@ -205,7 +205,7 @@ class VitLitModule(LightningModule):
         patch_size=4,
         emb_size=64,
         img_size=32,
-        depth=6
+        depth=6,
     ):
         super().__init__()
 

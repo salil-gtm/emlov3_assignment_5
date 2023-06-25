@@ -65,11 +65,10 @@ def infer(cfg: DictConfig) -> Tuple[dict, dict]:
             model.eval()
             output = model(image)
             prob = torch.nn.functional.softmax(output, dim=1)
-            prob_json = {classes[0]: prob[0][0].item(),
-            classes[1]: prob[0][1].item()}
-            print('\n')
+            prob_json = {classes[0]: prob[0][0].item(), classes[1]: prob[0][1].item()}
+            print("\n")
             pprint(prob_json)
-            print('\n')
+            print("\n")
             return prob_json, object_dict
 
 

@@ -10,22 +10,24 @@
 
 <em>The name is inspired by the metal alloy which is bonded to the character Wolverine's skeleton and claws.</em>
 
-Adamantium is a custom python package which currently supports usage of any model available in TIMM for training & evalution on CIFAR10 dataset. All functionalities can be controlled by hydra configs.
+Adamantium is a custom python package which currently supports:
+- Usage of any model available in TIMM for training & evalution on CIFAR10 dataset. 
+- VIT model for training, evaluation & inference on Cats-Dogs dataset.
 
-The setup can be run in two ways:
+All functionalities can be controlled by hydra configs.
 
 ## Using Dev Container
 
 1. Clone the repository.
 
 ```bash
-git clone https://github.com/salil-gtm/emlov3_assignment_4.git
+git clone https://github.com/salil-gtm/emlov3_assignment_5.git
 ```
 
 2. Open the repo in VS Code.
 
 ```bash 
-cd emlov3_assignment_4
+cd emlov3_assignment_5
 code .
 ```
 
@@ -33,67 +35,69 @@ code .
 
 4. Use Command Palette > Dev Container: Build and Open in Container.
 
-5. Now you can use the terminal in VS Code to run the commands mentioned below.
+This way you will be able to use the dev container for development with all necessary packages installed.
 
-Training can be done using the following commands:
+## DVC Setup
+
+1. To track the data folder using DVC, run the following command:
 
 ```bash
-python adamantium/train.py data.num_workers=4
+dvc add data
 ```
 
-Evaluation can be done using the following commands:
+2. To add the data folder to remote storage, run the following command:
 
 ```bash
-python adamantium/eval.py data.num_workers=4
+dvc remote add -d local ../dvc_storage
+```
+
+3. To push the data folder to remote storage, run the following command:
+
+```bash
+dvc push -r local
+```
+
+4. To pull the data folder from remote storage, run the following command:
+
+```bash
+dvc pull -r local
+```
+
+## Training & Evaluation
+
+1. To train the model, run the following command:
+
+```bash
+adamantium_train data.num_workers=8 experiment=cat_dog
+```
+
+2. To evaluate the model, run the following command:
+
+```bash
+adamantium_eval data.num_workers=8 experiment=cat_dog
 ```
 
 Note: The above commands will run the training & evaluation using the default config file.
 
+## Inference
 
-## Using Docker Image
-
-1. Pull the docker image.
-
+To run inference on a single image, run the following command:
+adamantium_infer data.num_workers=8 experiment=cat_dog
 ```bash
-docker pull salilgtm/emlov3_assignment_4:latest
+adamantium_infer experiment=cat_dog_infer
 ```
 
-2. To run the docker image for training & evaluation, use the following command:
+Output includes the class probabilities for the image:
 
 ```bash
-docker run -it salilgtm/emlov3_assignment_4:latest sh -c "python adamantium/train.py data.num_workers=4 && python adamantium/eval.py data.num_workers=4"
+{'cat': 0.29665568470954895, 'dog': 0.7033442854881287}
 ```
 
-Note: The above commands will run the training & evaluation using the default config file.
+Note: The above command will run inference on the image mentioned in the config file.
 
+## Past Documentation
 
-## Config Structure
-
-```bash
-.
-├── __init__.py
-├── data
-│   └── cifar10.yaml
-├── eval.yaml
-├── hydra
-│   └── default.yaml
-├── model
-│   └── hf.yaml
-├── paths
-│   └── default.yaml
-├── train.yaml
-└── trainer
-    ├── cpu.yaml
-    └── default.yaml
-
-5 directories, 9 files
-```
-
-Paramters can be overriden by passing them as arguments to the command line. For example, to change the batch size, use the following command:
-
-```bash
-python adamantium/train.py data.num_workers=4 data.batch_size=64
-```
+- [Assignment 4](https://github.com/salil-gtm/emlov3_assignment_4)
 
 ## Author
 
