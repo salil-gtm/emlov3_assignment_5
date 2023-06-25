@@ -5,6 +5,7 @@ import torch
 from lightning import LightningModule
 from lightning.pytorch.loggers import Logger
 from omegaconf import DictConfig
+from pprint import pprint
 
 from torchvision import transforms as T
 from PIL import Image
@@ -15,7 +16,7 @@ log = utils.get_pylogger(__name__)
 
 
 @utils.task_wrapper
-def evaluate(cfg: DictConfig) -> Tuple[dict, dict]:
+def infer(cfg: DictConfig) -> Tuple[dict, dict]:
     """Infers using checkpoint on a given image.
 
     This method is wrapped in optional @task_wrapper decorator, that controls the behavior during
@@ -63,19 +64,18 @@ def evaluate(cfg: DictConfig) -> Tuple[dict, dict]:
             image = image.unsqueeze(0)
             model.eval()
             output = model(image)
-            _, predicted = torch.max(output, 1)
-            print(
-                "Predicted: ", " ".join("%5s" % classes[predicted[j]] for j in range(1))
-            )
+            prob = torch.nn.functional.softmax(output, dim=1)
+            prob_json = {classes[0]: prob[0][0].item(),
+            classes[1]: prob[0][1].item()}
+            print('\n')
+            pprint(prob_json)
+            print('\n')
+            return prob_json, object_dict
 
 
 @hydra.main(version_base="1.3", config_path="../configs", config_name="infer.yaml")
 def main(cfg: DictConfig) -> None:
-    # apply extra utilities
-    # (e.g. ask for tags if none are provided in cfg, print cfg tree, etc.)
-    utils.extras(cfg)
-
-    evaluate(cfg)
+    infer(cfg)
 
 
 if __name__ == "__main__":

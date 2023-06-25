@@ -201,6 +201,11 @@ class VitLitModule(LightningModule):
         optimizer: torch.optim.Optimizer,
         scheduler: torch.optim.lr_scheduler,
         num_classes=10,
+        in_channels=3,
+        patch_size=4,
+        emb_size=64,
+        img_size=32,
+        depth=6
     ):
         super().__init__()
 
@@ -226,6 +231,14 @@ class VitLitModule(LightningModule):
         self.test_acc = Accuracy(
             task="multiclass", num_classes=self.hparams.num_classes
         )
+
+        # for averaging loss across batches
+        self.train_loss = MeanMetric()
+        self.val_loss = MeanMetric()
+        self.test_loss = MeanMetric()
+
+        # for tracking best so far validation accuracy
+        self.val_acc_best = MaxMetric()
 
     def forward(self, x: torch.Tensor):
         return self.model(x)
@@ -293,7 +306,7 @@ class VitLitModule(LightningModule):
         Normally you'd need one. But in the case of GANs or similar you might have multiple.
 
         Examples:
-            <https://lightning.ai/docs/pytorch/latest/common/lightning_module.html#configure-optimizers>
+            https://lightning.ai/docs/pytorch/latest/common/lightning_module.html#configure-optimizers
         """
         optimizer = self.hparams.optimizer(params=self.parameters())
         if self.hparams.scheduler is not None:
