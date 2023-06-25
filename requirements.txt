@@ -7,6 +7,13 @@ torchmetrics>=0.11.4
 # --------- model zoo -------#
 timm>=0.9.0
 
+# ------- tensor utils ------#
+einops
+
+# --------- dvc --------- #
+dvc
+dvc-gdrive
+
 # --------- hydra --------- #
 hydra-core==1.3.2
 hydra-colorlog==1.2.0

@@ -152,7 +152,9 @@ def get_latest_checkpoint(ckpt_path: str) -> str:
     )
 
     # sort the list of checkpoints by epoch
-    ckpt_list_epochs = sorted(ckpt_list_epochs, key=lambda x: int(x.split("=")[-1].split(".")[0]))
+    ckpt_list_epochs = sorted(
+        ckpt_list_epochs, key=lambda x: int(x.split("=")[-1].split(".")[0])
+    )
 
     # get the latest checkpoint
     checkpoint_name = ckpt_list_epochs[-1]

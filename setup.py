@@ -15,6 +15,7 @@ setup(
         "console_scripts": [
             "adamantium_train = adamantium.train:main",
             "adamantium_eval = adamantium.eval:main",
+            "adamantium_infer = adamantium.infer:main",
         ]
     },
 )
